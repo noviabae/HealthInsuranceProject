@@ -1,0 +1,52 @@
+//DDL untuk health_insurance; schema = public
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(50) NOT NULL,
+  address VARCHAR(200) NOT NULL,
+  contact VARCHAR(20) NOT NULL,
+  identity_card_number VARCHAR(20) NOT NULL
+);
+
+
+CREATE TABLE insurance_policy (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  policy_number VARCHAR(20) NOT NULL,
+  policy_type VARCHAR(50) NOT NULL,
+  start_date DATE,
+  end_date DATE,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE premium_payments (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  policy_id INT NOT NULL,
+  payment_amount DECIMAL(10, 2) NOT NULL,
+  payment_date DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (policy_id) REFERENCES insurance_policy(id)
+);
+
+
+CREATE TABLE claims (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  policy_id INT NOT NULL,
+  claim_number VARCHAR(20) NOT NULL,
+  claim_status VARCHAR(50) NOT NULL,
+  claim_date DATE,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (policy_id) REFERENCES insurance_policy(id)
+);
+
+
+CREATE TABLE healthcare_provider ( 
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(100), 
+	location VARCHAR(200), 
+	specialization VARCHAR(100), 
+    insurance_network VARCHAR(100)
+);
